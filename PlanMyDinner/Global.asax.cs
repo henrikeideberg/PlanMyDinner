@@ -13,6 +13,7 @@ namespace PlanMyDinner
     {
         void Application_Start(object sender, EventArgs e)
         {
+            new Models.PlanMyDinnerDbContext().Recipes.ToList();//Generate the database at application start
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
