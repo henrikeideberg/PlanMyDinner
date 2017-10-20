@@ -19,47 +19,80 @@ namespace PlanMyDinner.SeedingData
                     {
                         Name = "Spaghetti",
                         Quantity = 340,
-                        Measure = "gram"
+                        Measure = EnumTypes.enumMeasure.gr
                     },
                     new Ingredient
                     {
-                        Name = "YellowOnion Onion",
+                        Name = "Gul lök",
                         Quantity = 1,
-                        Measure = "piece"
+                        Measure = EnumTypes.enumMeasure.st
                     },
                     new Ingredient
                     {
                         Name = "Bacon",
                         Quantity = 280,
-                        Measure = "gram"
+                        Measure = EnumTypes.enumMeasure.gr
+                    },
+                    new Ingredient
+                    {
+                        Name = "Äggulor",
+                        Quantity = 2,
+                        Measure = EnumTypes.enumMeasure.st
+                    },
+                    new Ingredient
+                    {
+                        Name = "Creme fraiche",
+                        Quantity = 1,
+                        Measure = EnumTypes.enumMeasure.dl
+                    },
+                    new Ingredient
+                    {
+                        Name = "Mjölk",
+                        Quantity = 2,
+                        Measure = EnumTypes.enumMeasure.dl
+                    },
+                    new Ingredient
+                    {
+                        Name = "Peccorino ost",
+                        Quantity = 60,
+                        Measure = EnumTypes.enumMeasure.gr
+                    },
+                    new Ingredient
+                    {
+                        Name = "Tomat",
+                        Quantity = 2,
+                        Measure = EnumTypes.enumMeasure.st
+                    },
+                    new Ingredient
+                    {
+                        Name = "Spenat",
+                        Quantity = 35,
+                        Measure = EnumTypes.enumMeasure.gr
                     }
                 },
-                Instructions = "Koka pastan<br>" +
-                               "Hacka lök<br>" +
-                               "Skär bacon i mindre bitar och stek i smör tills det blir knaprigt<br>" +
-                               "Blanda äggulor med creme fraiche, mjölk och ost<br>" +
-                               "etc etc",
+                Instructions = "Koka pastan.Hacka lök.Skär bacon i mindre bitar och stek i smör tills det blir knaprigt.Blanda äggulor med creme fraiche, mjölk och ost.Häll av pastan och lägg tillbaka i grytan.Lägg i lök, bacon och äggkräm.Värm försiktigt så pastan krämar till sig. Smaka av med salt och peppar.Tärna tomaterna och blanda med spenat och olivolja.Servera.",
                 Time = 30,
+                ThumbFileName = "pasta-carbonara-med-spenat-och-tomat.jpg",
                 Categories = new List<Category>
                 {
                     new Category
                     {
-                        Name = "Pork"
+                        Name = EnumTypes.enumCategory.Pork
                     },
                     new Category
                     {
-                        Name = "Pasta"
+                        Name = EnumTypes.enumCategory.Pasta
                     }
                 },
                 Contexts = new List<Context>
                 {
                     new Context
                     {
-                        Name = "Kids"
+                        Name = EnumTypes.enumContext.Kids
                     },
                     new Context
                     {
-                        Name = "Weekdays"
+                        Name = EnumTypes.enumContext.Weekdays
                     }
                 }
             };

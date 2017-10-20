@@ -11,7 +11,7 @@ namespace PlanMyDinner.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public string Measure { get; set; }
+        public EnumTypes.enumMeasure Measure { get; set; }
         public string IngredientToString()
         {
             return "string";//TBD how to format string nicely?

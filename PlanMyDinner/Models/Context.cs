@@ -8,7 +8,7 @@ namespace PlanMyDinner.Models
     public class Context
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public EnumTypes.enumContext Name { get; set; }
         /// <summary>
         /// Foreign key to Recipe. With this I am telling Recipe to be responsible for this child collection, i.e.
         /// when I save Recipe also Context should be saved in database.

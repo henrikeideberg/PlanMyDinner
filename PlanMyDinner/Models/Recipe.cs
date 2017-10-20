@@ -11,6 +11,7 @@ namespace PlanMyDinner.Models
         public string Name { get; set; }
         public string Instructions { get; set; }
         public int Time { get; set; }
+        public string ThumbFileName { get; set; }
         public virtual ICollection<Ingredient> Ingredients { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Context> Contexts { get; set; }

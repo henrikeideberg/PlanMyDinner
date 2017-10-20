@@ -12,7 +12,11 @@ namespace PlanMyDinner.Models
         protected override void Seed(PlanMyDinnerDbContext context)
         {
             //Create a bunch of recipes and seed in to database
+            context.Recipes.Add(SeedingData.BroccolibiffarMedMosOchSallad.GetRecipe());
+            context.Recipes.Add(SeedingData.PizzaMedSkogschampinjonerOchDilligSallad.GetRecipe());
             context.Recipes.Add(SeedingData.PastaCarbonareMedSpenatOchTomat.GetRecipe());
+            context.Recipes.Add(SeedingData.PuckarMedHalloumiOchJalapeno.GetRecipe());
+            context.Recipes.Add(SeedingData.PumparisottoMedGetost.GetRecipe());
             base.Seed(context);
         }
     }

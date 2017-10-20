@@ -8,7 +8,7 @@ namespace PlanMyDinner.Models
     public class Category
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public EnumTypes.enumCategory Name { get; set; }
         /// <summary>
         /// Foreign key to Recipe. With this I am telling Recipe to be responsible for this child collection, i.e.
         /// when I save Recipe also Category should be saved in database.
