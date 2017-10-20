@@ -10,27 +10,33 @@ namespace PlanMyDinner
 {
     public partial class _Default : Page
     {
+        /// <summary>
+        /// Func to include html-breaks in to a text/string.
+        /// </summary>
         Func<string, string> addHtmlBreakTags = s => s.Replace(".", ".<br><br>");
-        Action<object> updateGui;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (!IsPostBack)//Prevent to GUI reset at reload
             {
-                ClearGui();
+                ClearAllGridviews();
 
                 using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
                 {
                     //Using TemplateFields in the GridView Control 
                     // https://msdn.microsoft.com/en-us/library/bb288032.aspx
-                    RecipeGridView.DataSource = database.Recipes.ToList();
-                    RecipeGridView.DataBind();
+                    UpdateRecipeGrid(database.Recipes);
                 }
                 ltRecipe.Text = "Showing all available recipes";
             }
         }
 
-        protected void ClearGui()
+        /*************************************************************************
+         * 
+         *                          GUI update methods
+         * 
+         * ***********************************************************************/
+        protected void ClearAllGridviews()
         {
             RecipeGridView.DataSource = null;
             RecipeGridView.DataBind();
@@ -45,7 +51,7 @@ namespace PlanMyDinner
             Gv_imgs.DataBind();
         }
 
-        protected void UpdateGui(int recipeId)
+        protected void UpdateReceipeDetailsGridViews(int recipeId)
         {
             using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
             {
@@ -70,38 +76,130 @@ namespace PlanMyDinner
             }
         }
 
-        protected void UpdatedRecipeGrid(IQueryable<Models.Recipe> recipes)
+        protected void UpdateRecipeGrid(IQueryable<Models.Recipe> recipes)
         {
-            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-            {
-                RecipeGridView.DataSource = recipes.ToList();
-                RecipeGridView.DataBind();
-            }
+            RecipeGridView.DataSource = recipes.ToList();
+            RecipeGridView.DataBind();
         }
+
+        protected void SearchCleanUp(IQueryable<Models.Recipe> recipes)
+        {
+            ClearAllGridviews();
+            UpdateRecipeGrid(recipes);
+            ltRecipe.Text = "Showing result of search";
+        }
+
+        protected void RecipeGridView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int recipeId = (int)RecipeGridView.SelectedDataKey.Value;
+            UpdateReceipeDetailsGridViews(recipeId);
+        }
+
+        /*************************************************************************
+         * 
+         *                         Button methods
+         * 
+         * ***********************************************************************/
 
         protected void ButtonSubmit_Click(object sender, EventArgs e)
         {
-            string searchInput;
-            Action<string> search;
             if (TextBoxSearchInput.Text.Length > 1)
             {
-                searchInput = TextBoxSearchInput.Text;
-                if (CheckboxRecipe.Checked && CheckboxIngredient.Checked)
-                    search = SearchIngredientAndRecipeNames;
-                else if (CheckboxRecipe.Checked)
-                    search = SearchRecipeNames;
-                else if (CheckboxIngredient.Checked)
-                    search = SearchIngredientNames;
-                else
-                    search = SearchIngredientAndRecipeNames;
+                //Include search string in search/filter submit
+                SearchIngredientAndRecipeNames(TextBoxSearchInput.Text);
             }
             else //Only look for the categories and contexts
             {
-                searchInput = "";
-                search = DoSomethingElse;
+                SearchCategoriesAndContexts();
             }
-            search(searchInput);
         }
+
+        protected void ButtonSetUnsetAllCategories_Click(object sender, EventArgs e)
+        {
+            if (CheckboxPork.Checked) UnSetAllCategoryCheckboxes();
+            else SetAllCategoryCheckboxes();
+        }
+
+        protected void ButtonSetUnsetAllContexts_Click(object sender, EventArgs e)
+        {
+            if (CheckboxKids.Checked) UnSetAllContextCheckboxes();
+            else SetAllContextCheckboxes();
+        }
+
+        protected void ButtonClear_Click(object sender, EventArgs e)
+        {
+            ClearAllGridviews();
+            SetAllCheckBoxes();
+            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
+            {
+                //Using TemplateFields in the GridView Control 
+                // https://msdn.microsoft.com/en-us/library/bb288032.aspx
+                RecipeGridView.DataSource = database.Recipes.ToList();
+                RecipeGridView.DataBind();
+            }
+            ltRecipe.Text = "Showing all available recipes";
+        }
+
+        /*************************************************************************
+         * 
+         *                    Database/model search methods
+         * 
+         * ***********************************************************************/
+        /// <summary>
+        /// Method to search the database for recipes and/or ingrerdients matching the
+        /// given search string. The search algortihm considers
+        ///  - if checkbox 'Recipes' is checked - include only matches which include the search string in recipe name
+        ///  - if checkbox 'Ingredients' is check - include only matches which include the search string in ingredient names
+        ///  - if both checkboxs 'Recipes' and 'Ingredients' are checked - inlcude only matches which contain the search string in'
+        ///    recipe name AND ingredient names.
+        ///  - if neither checkbox 'Recipes' or 'Ingredients' are checked - the search result will be empty
+        ///  
+        /// The search algorithm also filters the search so that
+        ///  - only selected categories are included in the search result
+        ///  - only selected contextx are included in the search result
+        /// https://stackoverflow.com/questions/16993962/searching-multiple-fields-with-linq-contains-or-other
+        /// https://stackoverflow.com/questions/41333535/using-if-else-in-lambda-expression-in-where-clause
+        /// https://stackoverflow.com/questions/3177113/lambda-expression-for-exists-within-list
+        /// </summary>
+        /// <param name="searchString"></param>
+        protected void SearchIngredientAndRecipeNames(string searchString)
+        {
+            List<string> categories = GetCategories();
+            List<string> contexts = GetContexts();
+
+            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
+            {
+                var recipes = database.Recipes.Where(p =>
+                ((categories.Count > 0 && p.Categories.Any(c => categories.Contains(c.Name.ToString()))) &&//filter selected categories
+                (contexts.Count > 0 && p.Contexts.Any(c => contexts.Contains(c.Name.ToString())))) &&//filter selected categories
+                ((CheckboxRecipe.Checked && p.Name.Contains(searchString)) ||//filter recipe name
+                (CheckboxIngredient.Checked && p.Ingredients.Any(c => c.Name.Contains(searchString))))).Select(p => p);//filter ingredient names
+                SearchCleanUp(recipes);
+            }
+        }
+
+        /// <summary>
+        /// Method to search the database for recipes matching the given categories and/or contexts.
+        /// </summary>
+        protected void SearchCategoriesAndContexts()
+        {
+            List<string> categories = GetCategories();
+            List<string> contexts = GetContexts();
+
+            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
+            {
+                var recipes = database.Recipes.Where(p =>
+                (categories.Count > 0 && p.Categories.Any(c => categories.Contains(c.Name.ToString()))) &&
+                (contexts.Count > 0 && p.Contexts.Any(c => contexts.Contains(c.Name.ToString())))).Select(p => p);
+                SearchCleanUp(recipes);
+            }
+        }
+
+        /*************************************************************************
+         * 
+         *                    Checkbox related methods
+         * 
+         * ***********************************************************************/
 
         protected List<string> GetContexts()
         {
@@ -134,91 +232,60 @@ namespace PlanMyDinner
             return enums;
         }
 
-        protected void SearchCleanUp(IQueryable<Models.Recipe> recipes)
+        private void SetAllContextCheckboxes()
         {
-            ClearGui();
-            UpdatedRecipeGrid(recipes);
-            ltRecipe.Text = "Showing result of search";
+            CheckboxKids.Checked = true;
+            CheckboxWeekdays.Checked = true;
+            CheckboxWeekends.Checked = true;
+            CheckboxParty.Checked = true;
+            CheckboxStarter.Checked = true;
         }
 
-        protected void SearchRecipeNames(string searchString)
+        private void UnSetAllContextCheckboxes()
         {
-            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-            {
-                var recipes = from x in database.Recipes where x.Name.Contains(searchString) select x;
-                SearchCleanUp(recipes);
-            }
+            CheckboxKids.Checked = false;
+            CheckboxWeekdays.Checked = false;
+            CheckboxWeekends.Checked = false;
+            CheckboxParty.Checked = false;
+            CheckboxStarter.Checked = false;
         }
 
-        protected void SearchIngredientNames(string searchString)
+        protected void SetAllCategoryCheckboxes()
         {
-            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-            {
-                var recipes = database.Recipes.Where(p => p.Ingredients.Any(c => c.Name.Contains(searchString))).Select(p => p);
-                SearchCleanUp(recipes);
-            }
+            CheckboxPork.Checked = true;
+            CheckboxBeef.Checked = true;
+            CheckboxChicken.Checked = true;
+            CheckboxFisk.Checked = true;
+            CheckboxSeafood.Checked = true;
+            CheckboxVegetarian.Checked = true;
+            CheckboxVegan.Checked = true;
+            CheckboxPasta.Checked = true;
+            CheckboxRice.Checked = true;
+            CheckboxPotato.Checked = true;
+            CheckboxSoup.Checked = true;
+            CheckboxPizza.Checked = true;
         }
 
-        protected void SearchIngredientAndRecipeNames(string searchString)
+        protected void UnSetAllCategoryCheckboxes()
         {
-            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-            {
-                var recipes = database.Recipes.Where(p => p.Name.Contains(searchString)).Select(p => p);
-                var ingredients = database.Recipes.Where(p => p.Ingredients.Any(c => c.Name.Contains(searchString))).Select(p => p);
-                var combined = recipes.Union(ingredients);//Union is a set operation - it returns distinct values.
-                SearchCleanUp(combined);
-            }
+            CheckboxPork.Checked = false;
+            CheckboxBeef.Checked = false;
+            CheckboxChicken.Checked = false;
+            CheckboxFisk.Checked = false;
+            CheckboxSeafood.Checked = false;
+            CheckboxVegetarian.Checked = false;
+            CheckboxVegan.Checked = false;
+            CheckboxPasta.Checked = false;
+            CheckboxRice.Checked = false;
+            CheckboxPotato.Checked = false;
+            CheckboxSoup.Checked = false;
+            CheckboxPizza.Checked = false;
         }
 
-        protected void DoSomethingElse(string emptystring)
+        protected void SetAllCheckBoxes()
         {
-            List<string> categories = GetCategories();
-            List<string> contexts = GetContexts();
-
-            if(categories.Count > 0)
-            {
-                using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-                {
-                    var categorySearchResult = database.Recipes.Where(p => p.Categories.Any(c => c.Name.ToString().Equals("invalid"))).Select(p => p);
-                    var combinedSearchResult = database.Recipes.Where(p => p.Categories.Any(c => c.Name.ToString().Equals("invalid"))).Select(p => p);
-                    foreach (var enumString in categories)
-                    {
-                        var recipes = database.Recipes.Where(p => p.Categories.Any(c => c.Name.ToString().Equals(enumString))).Select(p => p);
-                        categorySearchResult = categorySearchResult.Union(recipes);
-                    }
-                    if (contexts.Count > 0)
-                    {
-                        foreach (var enumString in contexts)
-                        {
-                            var recipes = categorySearchResult.Where(p => p.Contexts.Any(c => c.Name.ToString().Equals(enumString))).Select(p => p);
-                            combinedSearchResult = combinedSearchResult.Union(recipes);
-                        }
-                    }
-                    else combinedSearchResult = categorySearchResult;
-                    SearchCleanUp(combinedSearchResult);
-                }
-            }
-
-        }
-
-        protected void ButtonClear_Click(object sender, EventArgs e)
-        {
-            ClearGui();
-
-            using (Models.PlanMyDinnerDbContext database = new Models.PlanMyDinnerDbContext())
-            {
-                //Using TemplateFields in the GridView Control 
-                // https://msdn.microsoft.com/en-us/library/bb288032.aspx
-                RecipeGridView.DataSource = database.Recipes.ToList();
-                RecipeGridView.DataBind();
-            }
-            ltRecipe.Text = "Showing all available recipes";
-        }
-
-        protected void RecipeGridView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int recipeId = (int)RecipeGridView.SelectedDataKey.Value;
-            UpdateGui(recipeId);
+            SetAllCategoryCheckboxes();
+            SetAllContextCheckboxes();
         }
     }
 }

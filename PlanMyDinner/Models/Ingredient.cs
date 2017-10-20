@@ -5,6 +5,9 @@ using System.Web;
 
 namespace PlanMyDinner.Models
 {
+    /// <summary>
+    /// Class to describe the ingredients included in a recipe
+    /// </summary>
     public class Ingredient
     {
         //Composite key

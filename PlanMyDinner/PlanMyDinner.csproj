@@ -174,9 +174,15 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Media\a-pumparisotto-med-getost.jpg" />
     <Content Include="Media\broccolibiffar-med-mos-och-sallad.jpg" />
+    <Content Include="Media\e-strimlad-karre-i-ljummen-sallad.jpg" />
     <Content Include="Media\hostpizza-med-skogschampinjoner-dillig-sallad.jpg" />
+    <Content Include="Media\kottbullar-med-kramig-potatis-och-aggsallad-wokade-gronsaker.jpg" />
     <Content Include="Media\pasta-carbonara-med-spenat-och-tomat.jpg" />
     <Content Include="Media\puckar-med-halloumi-och-jalapeno.jpg" />
+    <Content Include="Media\quiche-lorraine-med-tomatsallad.jpg" />
+    <Content Include="Media\sotsalt-kyckling.jpg" />
+    <Content Include="Media\stekt-kolja-med-rodbetssallad-och-senapssas.jpg" />
+    <Content Include="Media\wokad-gronkal-med-ingerfara-och-ris.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -249,10 +255,16 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeedingData\BroccolibiffarMedMosOchSallad.cs" />
+    <Compile Include="SeedingData\KottbullarMedKramigPotatisOchAggsalladWokadeGronsaker.cs" />
     <Compile Include="SeedingData\PizzaMedSkogschampinjonerOchDilligSallad.cs" />
     <Compile Include="SeedingData\PastaCarbonareMedSpenatOchTomat.cs" />
     <Compile Include="SeedingData\PuckarMedHalloumiOchJalapeno .cs" />
     <Compile Include="SeedingData\PumparisottoMedGetost.cs" />
+    <Compile Include="SeedingData\QuicheLorraineMedTomatsallad.cs" />
+    <Compile Include="SeedingData\SotsaltKyckling.cs" />
+    <Compile Include="SeedingData\StektKoljaMedRodbetssalladOchSenapssas.cs" />
+    <Compile Include="SeedingData\StrimladKarreIDragonstektKålMedSenapshonung.cs" />
+    <Compile Include="SeedingData\WokadGronkalMedIngefaraOchRis.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -58,6 +58,15 @@ namespace PlanMyDinner {
         protected global::System.Web.UI.WebControls.Button ButtonClear;
         
         /// <summary>
+        /// SetUnsetAllCategories control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SetUnsetAllCategories;
+        
+        /// <summary>
         /// CheckboxPork control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,15 @@ namespace PlanMyDinner {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox CheckboxPizza;
+        
+        /// <summary>
+        /// SetUnsetAllContexts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SetUnsetAllContexts;
         
         /// <summary>
         /// CheckboxKids control.

@@ -5,6 +5,9 @@ using System.Web;
 
 namespace PlanMyDinner.Models
 {
+    /// <summary>
+    /// Class which defines the category for a recipe, e.g. beef, vegetarian etc.
+    /// </summary>
     public class Category
     {
         public int Id { get; set; }

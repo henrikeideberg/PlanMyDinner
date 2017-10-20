@@ -15,8 +15,8 @@
                 Enter search string: <asp:TextBox ID="TextBoxSearchInput" runat="server"></asp:TextBox>
             </p>
             <div>
-                <asp:CheckBox ID="CheckboxRecipe" runat="server" Text="Recipes" />
-                <asp:CheckBox ID="CheckboxIngredient" runat="server" Text="Ingredients" />
+                <asp:CheckBox ID="CheckboxRecipe" runat="server" Text="Recipes" Checked="True" />
+                <asp:CheckBox ID="CheckboxIngredient" runat="server" Text="Ingredients" Checked="True" />
             </div>
             <br>
             <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" onclick="ButtonSubmit_Click" />
@@ -24,26 +24,28 @@
         </div>
         <div class="col-md-4">
             <h3>Categories</h3>
-            <asp:CheckBox ID="CheckboxPork" runat="server" Text="Pork" />
-            <asp:CheckBox ID="CheckboxBeef" runat="server" Text="Beef" />
-            <asp:CheckBox ID="CheckboxChicken" runat="server" Text="Chicken" />
-            <asp:CheckBox ID="CheckboxFisk" runat="server" Text="Fisk" />
-            <asp:CheckBox ID="CheckboxSeafood" runat="server" Text="Seafood" />
-            <asp:CheckBox ID="CheckboxVegetarian" runat="server" Text="Vegetarian" />
-            <asp:CheckBox ID="CheckboxVegan" runat="server" Text="Vegan" />
-            <asp:CheckBox ID="CheckboxPasta" runat="server" Text="Pasta" />
-            <asp:CheckBox ID="CheckboxRice" runat="server" Text="Rice" />
-            <asp:CheckBox ID="CheckboxPotato" runat="server" Text="Potato" />
-            <asp:CheckBox ID="CheckboxSoup" runat="server" Text="Soup" />
-            <asp:CheckBox ID="CheckboxPizza" runat="server" Text="Pizza" />
+            <asp:Button ID="SetUnsetAllCategories" runat="server" Text="Set/Unset" onclick="ButtonSetUnsetAllCategories_Click" /><br>
+            <asp:CheckBox ID="CheckboxPork" runat="server" Text="Pork" Checked="True" />
+            <asp:CheckBox ID="CheckboxBeef" runat="server" Text="Beef" Checked="True" />
+            <asp:CheckBox ID="CheckboxChicken" runat="server" Text="Chicken" Checked="True" />
+            <asp:CheckBox ID="CheckboxFisk" runat="server" Text="Fisk" Checked="True" />
+            <asp:CheckBox ID="CheckboxSeafood" runat="server" Text="Seafood" Checked="True" />
+            <asp:CheckBox ID="CheckboxVegetarian" runat="server" Text="Vegetarian" Checked="True" />
+            <asp:CheckBox ID="CheckboxVegan" runat="server" Text="Vegan" Checked="True" />
+            <asp:CheckBox ID="CheckboxPasta" runat="server" Text="Pasta" Checked="True" />
+            <asp:CheckBox ID="CheckboxRice" runat="server" Text="Rice" Checked="True" />
+            <asp:CheckBox ID="CheckboxPotato" runat="server" Text="Potato" Checked="True" />
+            <asp:CheckBox ID="CheckboxSoup" runat="server" Text="Soup" Checked="True" />
+            <asp:CheckBox ID="CheckboxPizza" runat="server" Text="Pizza" Checked="True" />
         </div>
         <div class="col-md-4">
             <h3>Context</h3>
-            <asp:CheckBox ID="CheckboxKids" runat="server" Text="Kids" />
-            <asp:CheckBox ID="CheckboxWeekdays" runat="server" Text="Weekdays" />
-            <asp:CheckBox ID="CheckboxWeekends" runat="server" Text="Weekends" />
-            <asp:CheckBox ID="CheckboxParty" runat="server" Text="Party" />
-            <asp:CheckBox ID="CheckboxStarter" runat="server" Text="Starter" />
+            <asp:Button ID="SetUnsetAllContexts" runat="server" Text="Set/Unset" onclick="ButtonSetUnsetAllContexts_Click" /><br>
+            <asp:CheckBox ID="CheckboxKids" runat="server" Text="Kids" Checked="True" />
+            <asp:CheckBox ID="CheckboxWeekdays" runat="server" Text="Weekdays" Checked="True" />
+            <asp:CheckBox ID="CheckboxWeekends" runat="server" Text="Weekends" Checked="True" />
+            <asp:CheckBox ID="CheckboxParty" runat="server" Text="Party" Checked="True" />
+            <asp:CheckBox ID="CheckboxStarter" runat="server" Text="Starter" Checked="True" />
         </div>
     </div>
     <hr>

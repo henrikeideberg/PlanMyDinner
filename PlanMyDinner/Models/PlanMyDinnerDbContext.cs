@@ -41,6 +41,8 @@ namespace PlanMyDinner.Models
                 .WithOptional()
                 .HasForeignKey(oi => oi.RecipeId);
             /*
+             * Not sure if this needed...
+             * It seems to be working without this...
             modelBuilder.Entity<Recipe>()
                 .HasMany(o => o.Categories)
                 .WithOptional()
@@ -57,6 +59,8 @@ namespace PlanMyDinner.Models
                 .Property(oi => oi.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             /*
+             * Not sure if this needed...
+             * It seems to be working without this...
             modelBuilder.Entity<Category>()
                 .HasKey(oi => new { oi.Id, oi.RecipeId })
                 .Property(oi => oi.Id)

@@ -5,6 +5,10 @@ using System.Web;
 
 namespace PlanMyDinner.Models
 {
+    /// <summary>
+    /// Class which defines in which context a recipe can work.
+    /// E.g. if the recipe is applicable for children or at a party.
+    /// </summary>
     public class Context
     {
         public int Id { get; set; }

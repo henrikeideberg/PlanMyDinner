@@ -5,6 +5,9 @@ using System.Web;
 
 namespace PlanMyDinner.Models
 {
+    /// <summary>
+    /// Enum type which lists different measures used in recipes.
+    /// </summary>
     public class EnumTypes
     {
         public enum enumMeasure
@@ -19,6 +22,9 @@ namespace PlanMyDinner.Models
             kg  //kilogram
         }
 
+        /// <summary>
+        /// Enum type which lists different applicable recipe-categories
+        /// </summary>
         public enum enumCategory
         {
             Pork,
@@ -35,6 +41,9 @@ namespace PlanMyDinner.Models
             Pizza
         }
 
+        /// <summary>
+        /// Enum type which lists different applicable contexts.
+        /// </summary>
         public enum enumContext
         {
             Kids,

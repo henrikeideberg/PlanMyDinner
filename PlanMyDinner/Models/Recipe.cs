@@ -5,6 +5,10 @@ using System.Web;
 
 namespace PlanMyDinner.Models
 {
+    /// <summary>
+    /// Class to describe a recipe in the model/database.
+    /// Is the primary 'key' in the database.
+    /// </summary>
     public class Recipe
     {
         public int Id { get; set; }
@@ -20,6 +24,5 @@ namespace PlanMyDinner.Models
         // One example implementation would be;
         // https://stackoverflow.com/questions/28949019/entity-framework-create-a-model-from-dictionarytkey-tvalue-to-be-mapped-to-a
         // but I prefer above data structure. Hope that is ok.
-
     }
 }
